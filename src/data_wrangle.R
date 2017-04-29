@@ -1,11 +1,6 @@
-rm(list=ls())
-cat('\014')
-
 library(dplyr)
 library(reshape2)
 library(tidyr)
-
-setwd('/Users/Will/msan/vis/world_data_vis/src/')
 
 
 clean_year_string <- function(df) {
@@ -41,7 +36,6 @@ format_for_time_series <- function(df) {
 
 load_data <- function() {
   df <- read_data("../WDI_csv/WDIData.csv")
-  df <- df[df$Indicator.Code %in% c('PA.NUS.PPP.05', 'PA.NUS.PRVT.PP.05'), ]
   return(df)
 }
 
