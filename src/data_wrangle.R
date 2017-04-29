@@ -36,7 +36,6 @@ format_for_time_series <- function(df) {
 
 load_data <- function() {
   df <- read_data("../WDI_csv/WDIData.csv")
-  df <- df[df$Indicator.Code %in% c('PA.NUS.PPP.05', 'PA.NUS.PRVT.PP.05'), ]
   return(df)
 }
 
