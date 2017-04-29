@@ -1,11 +1,6 @@
-rm(list=ls())
-cat('\014')
-
 library(dplyr)
 library(reshape2)
 library(tidyr)
-
-setwd('/Users/Will/msan/vis/world_data_vis/src/')
 
 
 clean_year_string <- function(df) {
