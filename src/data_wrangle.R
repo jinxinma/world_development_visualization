@@ -62,8 +62,8 @@ format_for_time_series <- function(df) {
   return(df)
 }
 
-load_data <- function() {
-  df <- read_data("../WDI_csv/wdi_tiny.csv")
+load_data <- function(file_name) {
+  df <- read_data(file_name)
   return(df)
 }
 
