@@ -2,16 +2,33 @@ library(dplyr)
 library(reshape2)
 library(tidyr)
 
+if (!require(rgdal)) install.packages("rgdal")
+library(rgdal)
+
+if (!require(rgeos)) install.packages("rgeos")
+library(rgeos)
+
 
 clean_year_string <- function(df) {
-  df$Year <- lapply(df$Year, function(s) substr(s, 2, 5))
+  df$Year <- vapply(df$Year, function(s) substr(s, 2, 5), 'a')
   return(df)
+}
+
+
+load_map <- function(name) {
+  world <- readOGR(name, "OGRGeoJSON")
+  map <- ggplot2::fortify(world, region = "name")
+  return(map)
 }
 
 
 format_for_heat <- function(df) {
   df <- melt_years(df)
-  return(df)
+  df <- df[, names(df) != 'Indicator.Name']
+  df <- spread(df, Indicator.Code, value)
+  map <- load_map("../WDI_csv/world.geo.json")
+  map_d <- left_join(map, df, by=c("id"="Country.Name"))
+  return(map_d)
 }
 
 
