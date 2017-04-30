@@ -49,7 +49,7 @@ negate <- function(x) return(- x)
 
 
 format_for_time_series <- function(df) {
-  df <- melt_years(world_df)
+  df <- melt_years(df)
   df <- df[, names(df) != 'Indicator.Name']
   df[is.na(df$value), 'value'] <- 0.0
   df <- spread(df, Indicator.Code, value)
