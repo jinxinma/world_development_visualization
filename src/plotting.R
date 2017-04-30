@@ -28,3 +28,14 @@ plot_pulse <- function(df) {
     layer_lines()) #%>%
     #bind_shiny("p", "p_ui")
 }
+
+plot_heat <- function(df) {
+    return (df %>%
+      filter(Year == 2010) %>%
+      ggvis(~long, ~lat) %>%
+      group_by(group, id) %>%
+      layer_paths(strokeOpacity:=0.5, stroke:="#7f7f7f",
+                  fill := ~NV.AGR.TOTL.ZS) %>%
+      hide_axis("x") %>% hide_axis("y") %>%
+      set_options(width=400, height=600, keep_aspect=TRUE))
+}
