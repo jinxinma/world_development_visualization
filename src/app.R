@@ -1,17 +1,25 @@
 rm(list=ls())
 cat('\014')
 
+library(ggplot2)
 library(shiny)
 
 source('data_wrangle.R')
 source('plotting.R')
 
+
 bind_heat <- function(df) {
   plot_heat(df) %>% bind_shiny("heat", "p_ui")
 }
 
+
 bind_pulse <- function(df) {
   plot_pulse(df) %>% bind_shiny("pulse", "p_ui")
+}
+
+
+bind_time <- function(df) {
+  plot_time(df) %>% bind_shiny("time", "p_ui")
 }
 
 
@@ -20,7 +28,7 @@ ui <- fluidPage(
   mainPanel(
     tabsetPanel(
       tabPanel("World Heat Map", ggvisOutput('heat')),
-      #tabPanel("River Time Series", ),
+      tabPanel("River Time Series", plotOutput("time")),
       tabPanel("World Pulse", ggvisOutput('pulse'))
     )
   ),
@@ -34,9 +42,14 @@ server <- function(input, output) {
                                                       "EG.USE.ELEC.KH.PC"), ]
   parallel_df <- format_for_parallel(world_df)
   heat_df <- format_for_heat(world_df)
+  time_df <- format_for_time_series(world_df)
   
   bind_pulse(parallel_df)
   bind_heat(heat_df)
+  output$time <- renderPlot(
+    ggplot(time_df, aes(x = Year))  + geom_ribbon(aes(ymin = below, ymax = above, fill = Country.Name), alpha = 0.5)
+  )
+   
 }
 
 

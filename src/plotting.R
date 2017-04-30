@@ -3,6 +3,19 @@
 library(ggvis)
 library(plotly)
 
+
+normalize <- function(l) {
+  l_filtered <- l[!is.na(l)] 
+  if (length(l_filtered)) {
+    max_l <- max(l_filtered)
+    min_l <- min(l_filtered)    
+    return((l - min_l) / (max_l - min_l))
+  } else {
+    return (l - l)
+  }
+}
+
+
 plot_pulse <- function(df) {
   year_slider <- input_slider(1961, 
                               2014, 
@@ -29,6 +42,7 @@ plot_pulse <- function(df) {
     #bind_shiny("p", "p_ui")
 }
 
+
 plot_heat <- function(df) {
     return (df %>%
       filter(Year == 2010) %>%
@@ -39,3 +53,28 @@ plot_heat <- function(df) {
       hide_axis("x") %>% hide_axis("y") %>%
       set_options(width=400, height=600, keep_aspect=TRUE))
 }
+
+
+plot_time <- function(df) {
+  df$above <- df$EG.USE.ELEC.KH.PC + df$NV.AGR.TOTL.ZS / 5.0
+  df$below <- df$EG.USE.ELEC.KH.PC - df$NV.AGR.TOTL.ZS / 5.0
+  
+  df <- df[df$Country.Name == "United States", ]
+  
+  return(
+    df_combo %>% 
+      ggvis(~Year, ~value) %>%
+      layer_lines(fill := 'blue')
+  )
+}
+
+
+
+
+
+
+
+
+
+
+
