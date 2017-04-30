@@ -19,11 +19,16 @@ format_for_parallel <- function(df) {
   df <- melt_years(df)
   df <- df[, names(df) != 'Indicator.Name']
   df <- spread(df, Indicator.Code, value)
-  df <- group_by(df, Country.Code) %>% 
-    mutate_each(funs(normalize_list), c(-Year, -Country.Name))
+  df <- group_by(df, Country.Code) %>% mutate_if(funs(normalize_list), .predicate=is.numeric)
+  df_odd <- df[, which(col(df[0:1,]) %% 2 == 1)] %>% mutate_if(funs(negate), .predicate=is.numeric)
+  df_even <- df[, which(col(df[0:1,]) %% 2 == 0)]
+  df <- cbind(data.frame(df_odd), data.frame(df_even))
   df <- melt(df, c('Country.Name', 'Country.Code', 'Year'))
+  df[is.na(df$value), 'value'] <- 0.0
   return(df)
 }
+
+negate <- function(x) return(- x)
 
 
 format_for_time_series <- function(df) {
@@ -49,7 +54,14 @@ melt_years <- function(df) {
 
 
 normalize_list <- function(l) {
-  (l - min(l)) / (max(l) - min(l))
+  l_filtered <- l[!is.na(l)] 
+  if (length(l_filtered)) {
+    max_l <- max(l_filtered)
+    min_l <- min(l_filtered)    
+    return((l - min_l) / (max_l - min_l))
+  } else {
+    return (l - l)
+  }
 }
 
 
