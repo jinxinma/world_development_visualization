@@ -15,12 +15,19 @@ plot_pulse <- function(df) {
 }
 
 plot_heat <- function(df) {
+  all_values <- function(x) {
+    if(is.null(x)) return(NULL)
+    paste0("Country Name: ", format(x)$id, "<br />",
+           names(x)[5], ": ", format(x)[5])
+  }
+  
   return (df %>%
           ggvis(~long, ~lat) %>%
           group_by(group, id) %>%
           layer_paths(strokeOpacity = 0.5,
-                      fill = ~ NV.AGR.TOTL.ZS) %>%
-          scale_numeric("fill", range=c("#bfd3e6", "#8c6bb1" ,"#4d004b")) %>%
+                      fill = ~NV.AGR.TOTL.ZS) %>%
+          scale_numeric("fill", range=c("#bfd3e6", "#e71818")) %>%
           hide_axis("x") %>% hide_axis("y") %>%
+          add_tooltip(all_values, "hover") %>%
           set_options(width=800, height=300, keep_aspect=TRUE))
 }

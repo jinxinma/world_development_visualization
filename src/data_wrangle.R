@@ -8,6 +8,8 @@ library(rgdal)
 if (!require(rgeos)) install.packages("rgeos")
 library(rgeos)
 
+if (!require(maptools)) install.packages("maptools")
+library(maptools)
 
 clean_year_string <- function(df) {
   df$Year <- vapply(df$Year, function(s) substr(s, 2, 5), 'a')

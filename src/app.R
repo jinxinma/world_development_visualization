@@ -6,10 +6,10 @@ library(shiny)
 source('data_wrangle.R')
 source('plotting.R')
 
-world_df <- load_data()
-world_df <- world_df[world_df$Indicator.Code %in% c("SP.DYN.TFRT.IN",
-                                                    "NV.AGR.TOTL.ZS",
-                                                    "EG.USE.ELEC.KH.PC"), ]
+# world_df <- load_data()
+# world_df <- world_df[world_df$Indicator.Code %in% c("SP.DYN.TFRT.IN",
+#                                                     "NV.AGR.TOTL.ZS",
+#                                                     "EG.USE.ELEC.KH.PC"), ]
 
 bind_heat <- function(df, year) {
   df %>%
@@ -34,7 +34,7 @@ ui <- fluidPage(
                            min = 1961, 
                            max = 2014, 
                            value = 1961, 
-                           animate = animationOptions(interval = 500, loop = TRUE)
+                           animate = animationOptions(interval = 1000, loop = TRUE)
                ),
                ggvisOutput('heat'),
                uiOutput("h_ui")),
