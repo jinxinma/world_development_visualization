@@ -18,9 +18,9 @@ plot_heat <- function(df) {
   return (df %>%
           ggvis(~long, ~lat) %>%
           group_by(group, id) %>%
-          layer_paths(strokeOpacity = 0.5, stroke = "#7f7f7f",
+          layer_paths(strokeOpacity = 0.5,
                       fill = ~ NV.AGR.TOTL.ZS) %>%
-          scale_numeric("fill") %>%
+          scale_numeric("fill", range=c("#bfd3e6", "#8c6bb1" ,"#4d004b")) %>%
           hide_axis("x") %>% hide_axis("y") %>%
           set_options(width=800, height=300, keep_aspect=TRUE))
 }
