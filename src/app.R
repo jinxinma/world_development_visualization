@@ -6,10 +6,10 @@ library(shiny)
 source('data_wrangle.R')
 source('plotting.R')
 
-# world_df <- load_data()
-# world_df <- world_df[world_df$Indicator.Code %in% c("SP.DYN.TFRT.IN",
-#                                                     "NV.AGR.TOTL.ZS",
-#                                                     "EG.USE.ELEC.KH.PC"), ]
+world_df <- load_data()
+world_df <- world_df[world_df$Indicator.Code %in% c("SP.DYN.TFRT.IN",
+                                                    "NV.AGR.TOTL.ZS",
+                                                    "EG.USE.ELEC.KH.PC"), ]
 
 bind_heat <- function(df, year) {
   df %>%
