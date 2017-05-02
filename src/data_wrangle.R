@@ -26,7 +26,7 @@ format_for_heat <- function(df) {
   df <- melt_years(df)
   df <- df[, names(df) != 'Indicator.Name']
   df <- spread(df, Indicator.Code, value)
-  map <- load_map("../WDI_csv/world.geo.json")
+  map <- load_map("../world.geo.json")
   map_d <- left_join(map, df, by=c("id"="Country.Name"))
   return(map_d)
 }
