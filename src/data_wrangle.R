@@ -54,12 +54,19 @@ negate <- function(x) return(- x)
 format_for_time_series <- function(df) {
   df <- melt_years(df)
   df <- df[, names(df) != 'Indicator.Name']
+  df[is.na(df$value), 'value'] <- 0.0
   df <- spread(df, Indicator.Code, value)
+  df <- df[as.numeric(df$Year) > 1900, ]
+  df <- group_by(df, Country.Code) %>% mutate_if(funs(normalize_list), .predicate=is.numeric)
+  df$above <- df$EG.USE.ELEC.KH.PC + df$NV.AGR.TOTL.ZS / 0.5
+  df$below <- df$EG.USE.ELEC.KH.PC - df$NV.AGR.TOTL.ZS / 0.5
+  df <- na.omit(df)
+  df$Year <- as.numeric(df$Year)
   return(df)
 }
 
-load_data <- function() {
-  df <- read_data("../WDI_csv/wdi_tiny.csv")
+load_data <- function(file_name) {
+  df <- read_data(file_name)
   return(df)
 }
 

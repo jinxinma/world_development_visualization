@@ -3,6 +3,19 @@
 library(ggvis)
 library(plotly)
 
+
+normalize <- function(l) {
+  l_filtered <- l[!is.na(l)] 
+  if (length(l_filtered)) {
+    max_l <- max(l_filtered)
+    min_l <- min(l_filtered)    
+    return((l - min_l) / (max_l - min_l))
+  } else {
+    return (l - l)
+  }
+}
+
+
 plot_pulse <- function(df) {
   # key is set to Country.Name simply to pass info down the pipe
   return (df %>% 
@@ -13,6 +26,7 @@ plot_pulse <- function(df) {
     layer_lines()) #%>%
     #bind_shiny("p", "p_ui")
 }
+
 
 plot_heat <- function(df) {
   all_values <- function(x) {
