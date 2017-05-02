@@ -7,7 +7,7 @@ library(shiny)
 source('data_wrangle.R')
 source('plotting.R')
 
-world_df <- load_data("../WDI_csv/wdi_tiny.csv")
+world_df <- load_data("../wdi_tiny.csv")
 world_df <- world_df[world_df$Indicator.Code %in% c("SP.DYN.TFRT.IN",  # fertility rate total
                                                     "NV.AGR.TOTL.ZS", # percent GDP is Ag
                                                     "AG.LND.CROP.ZS", # permenant cropland percent of land area
