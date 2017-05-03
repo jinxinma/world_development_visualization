@@ -58,15 +58,15 @@ time_observer <- function(input, output, df) {
     df$above <- y_vals + w_vals 
     df$below <- y_vals - w_vals 
     output$time <- renderPlotly(
-       plot <- ggplot(df, aes(x = Year))  + 
-               geom_ribbon(aes(ymin = below, 
-                          ymax = above,
-                          fill = Country.Name), 
-                          alpha = 0.5) + 
-               theme_bw() + theme(axis.title = element_text(size = 12),
-                           axis.text = element_text(size = 12),
-                           legend.text = element_text(size = 15),
-                           legend.title = element_blank())
+         ggplot(df, aes(x = Year))  + 
+         geom_ribbon(aes(ymin = below, 
+                    ymax = above,
+                    fill = Country.Name), 
+                    alpha = 0.5) + 
+         theme_bw() + theme(axis.title = element_text(size = 12),
+                     axis.text = element_text(size = 12),
+                     legend.text = element_text(size = 15),
+                     legend.title = element_blank())
     )
   }
 }
