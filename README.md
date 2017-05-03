@@ -11,7 +11,7 @@ We gathered the data set from worldbank.org. It includes several economic, healt
 
 In the prototype we present three plots, a heatmap on a world map, a "ribbon time series", and "world pulse plot". The world-heat map displays countries in different shades or colors depending on the value of the selected variable. In the final plot, we hope to make this interactive so a user could brush select sevral countries and the map update to zoom to those countries.  
 
-![](./screen_shots/heat2.png)
+![](./screen_shots/heat.png)
 
 The ribbon time series is an attempt to show two variables simultaneously changing over time in a single line. The height on the y-axis of of the line indicates the value of one variable at time $x$ while the width of the ribbon indicates the value of the second variable at time $x$. The non-time variables are all normalized so the minimum vaues is zero and the maximum is one. This allows the width and height to be simultaneously meaningful, but when two countries are displayed simultaneously we cannot compare the values of the variables between the two countries only the change of the variables.
 
