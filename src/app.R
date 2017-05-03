@@ -3,6 +3,7 @@ cat('\014')
 
 library(ggplot2)
 library(shiny)
+library(plotly)
 
 source('data_wrangle.R')
 source('plotting.R')
@@ -56,13 +57,13 @@ time_observer <- function(input, output, df) {
     w_vals <- df[, names(df) == col_w] / 10.0
     df$above <- y_vals + w_vals 
     df$below <- y_vals - w_vals 
-    output$time <- renderPlot(
-      ggplot(df, aes(x = Year))  + 
-        geom_ribbon(aes(ymin = below, 
-                        ymax = above,
-                        fill = Country.Name), 
-                        alpha = 0.5) + 
-        theme_bw() + theme(axis.title = element_text(size = 20),
+    output$time <- renderPlotly(
+       plot <- ggplot(df, aes(x = Year))  + 
+               geom_ribbon(aes(ymin = below, 
+                          ymax = above,
+                          fill = Country.Name), 
+                          alpha = 0.5) + 
+               theme_bw() + theme(axis.title = element_text(size = 20),
                            axis.text = element_text(size = 12),
                            legend.text = element_text(size = 15),
                            legend.title = element_blank())
@@ -102,7 +103,7 @@ ui <- fluidPage(
                            choices = world_df$Country.Name,
                            multiple = TRUE,
                            selected = "United States"),
-               plotOutput("time")),
+               plotlyOutput("time")),
       tabPanel("World Pulse", 
                sliderInput("pulse_year",
                            label = "Year: ",
