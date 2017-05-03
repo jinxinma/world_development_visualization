@@ -20,7 +20,10 @@ plot_pulse <- function(df) {
   # key is set to Country.Name simply to pass info down the pipe
   return (df %>% 
     ggvis(~variable, ~value) %>% 
-    add_axis('y', title = 'Fertility rate') %>%
+    add_axis('y', title = "Normalized Value") %>%
+    add_axis('x', title = "", properties = axis_props(
+      labels = list(angle = 45, align = "left", fontSize = 12)
+    )) %>%
     scale_numeric('y', domain = c(-1, 1), nice = FALSE) %>%
     #layer_points(opacity := 1.0) %>%
     layer_lines()) #%>%

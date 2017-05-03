@@ -61,7 +61,11 @@ time_observer <- function(input, output, df) {
         geom_ribbon(aes(ymin = below, 
                         ymax = above,
                         fill = Country.Name), 
-                    alpha = 0.5)
+                        alpha = 0.5) + 
+        theme_bw() + theme(axis.title = element_text(size = 20),
+                           axis.text = element_text(size = 12),
+                           legend.text = element_text(size = 15),
+                           legend.title = element_blank())
     )
   }
 }
