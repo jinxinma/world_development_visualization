@@ -28,7 +28,7 @@ plot_pulse <- function(df) {
 }
 
 
-plot_heat <- function(df) {
+plot_heat <- function(df, indicator) {
   all_values <- function(x) {
     if(is.null(x)) return(NULL)
     paste0("Country Name: ", format(x)$id, "<br />",
@@ -39,7 +39,7 @@ plot_heat <- function(df) {
           ggvis(~long, ~lat) %>%
           group_by(group, id) %>%
           layer_paths(strokeOpacity = 0.5,
-                      fill = ~NV.AGR.TOTL.ZS) %>%
+                      fill = as.name(indicator)) %>%
           scale_numeric("fill", range=c("#bfd3e6", "#e71818")) %>%
           hide_axis("x") %>% hide_axis("y") %>%
           add_tooltip(all_values, "hover") %>%

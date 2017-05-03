@@ -24,12 +24,11 @@ load_map <- function(name) {
 }
 
 
-format_for_heat <- function(df) {
+format_for_heat <- function(df, map_file) {
   df <- melt_years(df)
   df <- df[, names(df) != 'Indicator.Name']
   df <- spread(df, Indicator.Code, value)
-  map <- load_map("../world.geo.json")
-  map_d <- left_join(map, df, by=c("id"="Country.Name"))
+  map_d <- left_join(map_file, df, by=c("id"="Country.Name"))
   map_d[is.na(map_d)] <- 0
   return(map_d)
 }
