@@ -16,6 +16,25 @@ normalize <- function(l) {
 }
 
 
+plot_bubble <- function(df, x_col, y_col, year, min_x, max_x, min_y, max_y) {
+  df$x <- df[, x_col]
+  df$y <- df[, y_col]
+  # key is set to Country.Name simply to pass info down the pipe
+  return(df %>%
+    ggvis(~x, ~y, size = ~Population, key := ~Country.Name, fill = 'blue') %>%
+    hide_legend('fill') %>%
+    set_options(height = 650, width = 1000) %>%
+    add_tooltip(point_hover, "hover") %>%
+    add_axis('x', title = x_col) %>%
+    add_axis('y', title = y_col) %>%
+    filter(Year == year) %>%
+    layer_points(opacity := 0.5) %>%
+    scale_numeric('x', domain = c(min_x, max_x), nice = FALSE) %>%
+    scale_numeric('y', domain = c(min_y, max_y), nice = FALSE)
+  ) 
+} 
+
+
 plot_pulse <- function(df) {
   # key is set to Country.Name simply to pass info down the pipe
   return (df %>% 
@@ -47,6 +66,11 @@ plot_heat <- function(df, indicator) {
           hide_axis("x") %>% hide_axis("y") %>%
           add_tooltip(all_values, "hover") %>%
           set_options(width=800, height=300, keep_aspect=TRUE))
+}
+
+
+point_hover <- function(x) {
+  paste(x$Country.Name)
 }
 
 

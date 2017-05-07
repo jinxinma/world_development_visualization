@@ -18,6 +18,16 @@ clean_year_string <- function(df) {
 }
 
 
+format_for_bubble <- function(df) {
+  df <- melt_years(df)
+  df <- df[, names(df) != 'Indicator.Name']
+  df <- spread(df, Indicator.Code, value)
+  df <- df[df$Year != "",]
+  df <- na.omit(df)
+  return(df)
+}
+
+
 format_for_heat <- function(df, map_file) {
   df <- melt_years(df)
   df <- df[, names(df) != 'Indicator.Name']
