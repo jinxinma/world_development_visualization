@@ -48,3 +48,28 @@ plot_heat <- function(df, indicator) {
           add_tooltip(all_values, "hover") %>%
           set_options(width=800, height=300, keep_aspect=TRUE))
 }
+
+
+time_observer <- function(input, output, df) {
+  col_y <- input$indicator_y
+  col_w <- input$indicator_w
+  df = df[df$Country.Name %in% input$time_countries, ]
+  if (col_w %in% names(df) && col_y %in% names(df)) {
+    y_vals <- df[, names(df) == col_y]
+    w_vals <- df[, names(df) == col_w] / 10.0
+    df$above <- y_vals + w_vals 
+    df$below <- y_vals - w_vals 
+    output$time <- renderPlotly(
+      ggplot(df, aes(x = Year))  + 
+        geom_ribbon(aes(ymin = below, 
+                        ymax = above,
+                        fill = Country.Name), 
+                    alpha = 0.5) + 
+        theme_bw() + 
+        theme(axis.title = element_text(size = 12),
+              axis.text = element_text(size = 12),
+              legend.text = element_text(size = 15),
+              legend.title = element_blank())
+    )
+  }
+}
