@@ -27,3 +27,4 @@ The world pulse plot may or may not work, but we're going to try it. The idea is
 Each plot will be displayed in its own tab each tab having its own set of interactions. The heat map will allow the user to select the variable that controls the color. The river time series will allow the user to select countries ot display and two variables to compare. The pulse plot will allow the user to select the country. 
 
 
+# k-words-

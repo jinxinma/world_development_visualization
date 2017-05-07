@@ -11,16 +11,10 @@ library(rgeos)
 if (!require(maptools)) install.packages("maptools")
 library(maptools)
 
+
 clean_year_string <- function(df) {
   df$Year <- vapply(df$Year, function(s) substr(s, 2, 5), 'a')
   return(df)
-}
-
-
-load_map <- function(name) {
-  world <- readOGR(name, "OGRGeoJSON")
-  map <- ggplot2::fortify(world, region = "name")
-  return(map)
 }
 
 
@@ -47,6 +41,7 @@ format_for_parallel <- function(df) {
   return(df)
 }
 
+
 negate <- function(x) return(- x)
 
 
@@ -57,16 +52,61 @@ format_for_time_series <- function(df) {
   df <- spread(df, Indicator.Code, value)
   df <- df[as.numeric(df$Year) > 1900, ]
   df <- group_by(df, Country.Code) %>% mutate_if(funs(normalize_list), .predicate=is.numeric)
-  df$above <- df$EG.USE.ELEC.KH.PC + df$NV.AGR.TOTL.ZS / 0.5
-  df$below <- df$EG.USE.ELEC.KH.PC - df$NV.AGR.TOTL.ZS / 0.5
   df <- na.omit(df)
   df$Year <- as.numeric(df$Year)
   return(df)
 }
 
+
 load_data <- function(file_name) {
   df <- read_data(file_name)
+  world_df <- df[df$Indicator.Code %in% c("SP.DYN.TFRT.IN",  # fertility rate total
+                                          "NV.AGR.TOTL.ZS",  # percent GDP is Ag
+                                          "AG.LND.CROP.ZS",  # permenant cropland percent of land area
+                                          "EG.USE.ELEC.KH.PC",  # kWh per capita
+                                          "SP.DYN.CBRT.IN",  # birth rate
+                                          "EN.ATM.CO2E.KD.GD",  # CO2 emissions per 2010 us dollars
+                                          "NE.EXP.GNFS.ZS",  # Exports % GDP
+                                          "NY.GDP.MKTP.CD",  # GDP in current USD
+                                          "NY.GDP.PCAP.CD",  # GDP per capita in current USD
+                                          "NV.IND.TOTL.ZS",  # Industry percent GDP
+                                          "SP.DYN.LE00.IN",  # Life expectancy at birth
+                                          "EN.POP.DNST",  # population density 
+                                          "SP.POP.TOTL",  # population
+                                          "SP.RUR.TOTL.ZS",  # percent rural population
+                                          "SP.URB.TOTL.IN.ZS"  # urban population percent
+  ), ]
+  
+  df$Indicator.Code <-lapply(df$Indicator.Code, FUN = map_code)
   return(df)
+}
+
+
+load_map <- function(name) {
+  world <- readOGR(name, "OGRGeoJSON")
+  map <- ggplot2::fortify(world, region = "name")
+  return(map)
+}
+
+
+map_code <- function(code) {
+  switch (code,
+          "SP.DYN.TFRT.IN" = "Fertility.Rate",  # fertility rate total
+          "NV.AGR.TOTL.ZS" = "Percent.Ag.GDP",  # percent GDP is Ag
+          "AG.LND.CROP.ZS" = "Percent.Ag.Land",  # permenant cropland percent of land area
+          "EG.USE.ELEC.KH.PC" = "Energy.Use.Per.Capita",  # kWh per capita
+          "SP.DYN.CBRT.IN" = "Birth.Rate",  # birth rate
+          "EN.ATM.CO2E.KD.GD" = "CO2.Emissions",  # CO2 emissions per 2010 us dollars
+          "NE.EXP.GNFS.ZS" = "Exports",  # Exports % GDP
+          "NY.GDP.MKTP.CD" = "GDP",  # GDP in current USD
+          "NY.GDP.PCAP.CD" = "GDP.Per.Capita",  # GDP per capita in current USD
+          "NV.IND.TOTL.ZS" = "Industry.Percent.GDP",  # Industry percent GDP
+          "SP.DYN.LE00.IN" = "Life.Expectancy",  # Life expectancy at birth
+          "EN.POP.DNST" = "Population.Density",  # population density 
+          "SP.POP.TOTL" = "Population",  # population
+          "SP.RUR.TOTL.ZS" = "Percent.Rural.Population",  # percent rural population
+          "SP.URB.TOTL.IN.ZS" = "Urban.Population"  # urban population percent
+  )
 }
 
 
