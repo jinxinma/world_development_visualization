@@ -44,9 +44,7 @@ plot_pulse <- function(df) {
       labels = list(angle = 45, align = "left", fontSize = 12)
     )) %>%
     scale_numeric('y', domain = c(-1, 1), nice = FALSE) %>%
-    #layer_points(opacity := 1.0) %>%
-    layer_lines()) #%>%
-    #bind_shiny("p", "p_ui")
+    layer_lines(stroke := 'green', opacity := 0.5, strokeWidth := 5))
 }
 
 

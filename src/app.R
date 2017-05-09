@@ -77,7 +77,8 @@ ui <- fluidPage(
                            min = 1961, 
                            max = 2014, 
                            value = 1961, 
-                           animate = animationOptions(interval = 100, loop = TRUE)
+                           sep = '',
+                           animate = animationOptions(interval = 150, loop = TRUE)
                ),
                selectInput("country",
                            label = "Country: ",
@@ -92,6 +93,7 @@ ui <- fluidPage(
                            min = 1961, 
                            max = 2014, 
                            value = 1961, 
+                           sep = '',
                            animate = animationOptions(interval = 100, loop = TRUE)
                            ),
                selectInput(inputId = "bubble_y",
