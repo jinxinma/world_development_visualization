@@ -1,6 +1,7 @@
 rm(list=ls())
 cat('\014')
 
+if (!require(plotly)) install.packages("plotly")
 library(ggplot2)
 library(shiny)
 library(plotly)
@@ -51,9 +52,10 @@ ui <- fluidPage(
                            choices =  unique(world_df$Indicator.Code)),
                sliderInput("heat_year",
                            label = "Year: ",
-                           min = 1961, 
+                           min = 1970, 
                            max = 2014, 
-                           value = 1961, 
+                           value = 1970,
+                           sep = '',
                            animate = animationOptions(interval = 1000, loop = TRUE)
                ),
                ggvisOutput('heat'),
@@ -74,9 +76,9 @@ ui <- fluidPage(
       tabPanel("World Pulse", 
                sliderInput("pulse_year",
                            label = "Year: ",
-                           min = 1961, 
+                           min = 1970, 
                            max = 2014, 
-                           value = 1961, 
+                           value = 1970, 
                            sep = '',
                            animate = animationOptions(interval = 150, loop = TRUE)
                ),
@@ -90,9 +92,9 @@ ui <- fluidPage(
       tabPanel("Bubble Plot",
                sliderInput("bubble_year",
                            label = "Year: ",
-                           min = 1961, 
+                           min = 1970, 
                            max = 2014, 
-                           value = 1961, 
+                           value = 1970, 
                            sep = '',
                            animate = animationOptions(interval = 100, loop = TRUE)
                            ),
