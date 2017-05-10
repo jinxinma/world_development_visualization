@@ -49,12 +49,12 @@ format_for_parallel <- function(df) {
   df <- melt_years(df)
   df <- df[, names(df) != 'Indicator.Name']
   df <- spread(df, Indicator.Code, value)
-  df$Percent.Ag.GDP = 1 - df$Percent.Ag.GDP
-  df$Birth.Rate = 1 - df$Birth.Rate
-  df$Fertility.Rate = 1 - df$Fertility.Rate
-  df$Percent.Ag.Land = 1 - df$Percent.Ag.Land
-  df$Percent.Ag.GDP = 1 - df$Percent.Ag.GDP
-  df$Percent.Rural.Population = 1 - df$Percent.Rural.Population
+  df$Percent.Ag.GDP = 100 - df$Percent.Ag.GDP
+  df$Birth.Rate = 100 - df$Birth.Rate
+  df$Fertility.Rate = 100 - df$Fertility.Rate
+  df$Percent.Ag.Land = 100 - df$Percent.Ag.Land
+  df$Percent.Ag.GDP = 100 - df$Percent.Ag.GDP
+  df$Percent.Rural.Population = 100 - df$Percent.Rural.Population
   df <- df[, c("Country.Code",
                "Country.Name",
                "Year",

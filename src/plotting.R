@@ -63,7 +63,7 @@ plot_heat <- function(df, indicator) {
           scale_numeric("fill", range=c("#bfd3e6", "#e71818")) %>%
           hide_axis("x") %>% hide_axis("y") %>%
           add_tooltip(all_values, "hover") %>%
-          set_options(width=800, height=300, keep_aspect=TRUE))
+          set_options(width=1000, height=400, keep_aspect=TRUE))
 }
 
 
@@ -81,7 +81,7 @@ time_observer <- function(input, output, df) {
     w_vals <- df[, names(df) == col_w] / 10.0
     df$above <- y_vals + w_vals 
     df$below <- y_vals - w_vals 
-    output$time <- renderPlotly(
+    output$time <- renderPlot(
       ggplot(df, aes(x = Year))  + 
         geom_ribbon(aes(ymin = below, 
                         ymax = above,

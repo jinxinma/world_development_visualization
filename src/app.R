@@ -16,6 +16,7 @@ time_df <- format_for_time_series(world_df)
 bubble_df <- format_for_bubble(world_df)
 df_2 <- bubble_df[, 2:ncol(bubble_df)]
 
+
 bind_bubble <- function(df, x_col, y_col, year) {
   min_x <- min(df_2[x_col], na.rm = TRUE)
   max_x <- max(df_2[x_col], na.rm = TRUE)
@@ -70,7 +71,7 @@ ui <- fluidPage(
                            choices = world_df$Country.Name,
                            multiple = TRUE,
                            selected = "United States"),
-               plotlyOutput("time")),
+               plotOutput("time")),
       tabPanel("World Pulse", 
                sliderInput("pulse_year",
                            label = "Year: ",
@@ -94,7 +95,7 @@ ui <- fluidPage(
                            max = 2014, 
                            value = 1961, 
                            sep = '',
-                           animate = animationOptions(interval = 100, loop = TRUE)
+                           animate = animationOptions(interval = 150, loop = TRUE)
                            ),
                selectInput(inputId = "bubble_y",
                            label = "Indicator Name (y-axis): ",
